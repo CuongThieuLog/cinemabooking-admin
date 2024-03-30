@@ -4,7 +4,7 @@ import { clearObjRequest } from "../hooks";
 
 export const getMe = async () => {
   try {
-    const response = await request.get<SelfInfoType>("/me");
+    const response = await request.get<SelfInfoType>("auth/me");
     return response.data.data;
   } catch (error) {
     throw error;
