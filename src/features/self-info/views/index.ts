@@ -1,2 +1,2 @@
-export * from "./SelfInfo";
-export * from "./SelfInfoForm";
+export * from './SelfInfo'
+export * from './SelfInfoForm'

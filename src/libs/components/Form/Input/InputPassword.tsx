@@ -1,12 +1,12 @@
-import { InputAdornment, OutlinedInput } from "@mui/material";
-import HideIcon from "public/assets/svgs/hide.svg";
-import ShowIcon from "public/assets/svgs/show.svg";
-import { useState } from "react";
-import type { FieldValues } from "react-hook-form";
-import { useController } from "react-hook-form";
-import { InputProps } from "./Input";
-import { InputControl } from "./InputControl";
-import { ButtonActionPassword } from "./styled";
+import { InputAdornment, OutlinedInput } from '@mui/material'
+import HideIcon from 'public/assets/svgs/hide.svg'
+import ShowIcon from 'public/assets/svgs/show.svg'
+import { useState } from 'react'
+import type { FieldValues } from 'react-hook-form'
+import { useController } from 'react-hook-form'
+import { InputProps } from './Input'
+import { InputControl } from './InputControl'
+import { ButtonActionPassword } from './styled'
 
 function InputPassword<T extends FieldValues>({
   name,
@@ -15,7 +15,7 @@ function InputPassword<T extends FieldValues>({
   fullWidth,
   label,
   helperText,
-  width = "100%",
+  width = '100%',
   controlProps,
   required,
   labelLeft,
@@ -24,12 +24,12 @@ function InputPassword<T extends FieldValues>({
   const {
     field: { ref, ...inputProps },
     fieldState: { error },
-  } = useController({ name, control, defaultValue });
-  const [showPassword, setShowPassword] = useState(false);
+  } = useController({ name, control, defaultValue })
+  const [showPassword, setShowPassword] = useState(false)
   const togglePasswordVisibility = () => {
-    if (props.disabled) return;
-    setShowPassword(!showPassword);
-  };
+    if (props.disabled) return
+    setShowPassword(!showPassword)
+  }
 
   return (
     <InputControl
@@ -47,20 +47,17 @@ function InputPassword<T extends FieldValues>({
         {...props}
         inputRef={ref}
         sx={{ width: width }}
-        type={showPassword ? "text" : "password"}
+        type={showPassword ? 'text' : 'password'}
         endAdornment={
           <InputAdornment position="end">
-            <ButtonActionPassword
-              onClick={togglePasswordVisibility}
-              disableRipple
-            >
+            <ButtonActionPassword onClick={togglePasswordVisibility} disableRipple>
               {showPassword ? <ShowIcon /> : <HideIcon />}
             </ButtonActionPassword>
           </InputAdornment>
         }
       />
     </InputControl>
-  );
+  )
 }
 
-export { InputPassword };
+export { InputPassword }

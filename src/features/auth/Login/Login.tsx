@@ -1,7 +1,6 @@
 "use client";
 
 import { login } from "@/libs/api/auth";
-import { Input, InputPassword } from "@/libs/components/Form";
 import { useAuth } from "@/libs/context";
 import { ErrorTypeResponse } from "@/libs/types/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { LoginInputSchema, LoginInputType } from "./type";
+import { Input, InputPassword } from "@/libs/components/Form";
 
 const Login = () => {
   const router = useRouter();
@@ -83,6 +83,7 @@ const Login = () => {
             height: "calc(100% + 10px)",
             background:
               "linear-gradient(45deg, #000 0%, rgba(255, 255, 255, 1) 42%, rgba(255, 255, 255, 1) 59%, #BD191C 100%)",
+            borderRadius: "4px",
           },
         }}
       >

@@ -1,2 +1,2 @@
-export * from "./Login";
-export * from "./type";
+export * from './Login'
+export * from './type'

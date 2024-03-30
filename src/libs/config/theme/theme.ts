@@ -1,28 +1,28 @@
-"use client";
+'use client'
 
-import type { Theme } from "@mui/material";
-import { createTheme } from "@mui/material";
-import { Noto_Sans_JP } from "next/font/google";
-import { base, mono, statusColors } from "./colors";
+import type { Theme } from '@mui/material'
+import { createTheme } from '@mui/material'
+import { Noto_Sans_JP } from 'next/font/google'
+import { base, mono, statusColors } from './colors'
 
 export const notoSanJP = Noto_Sans_JP({
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-  display: "swap",
-  fallback: ["Helvetica", "Arial", "sans-serif"],
-});
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  fallback: ['Helvetica', 'Arial', 'sans-serif'],
+})
 
-declare module "@mui/material" {
+declare module '@mui/material' {
   interface Palette {
-    base: typeof base;
-    status: typeof statusColors;
-    mono: typeof mono;
+    base: typeof base
+    status: typeof statusColors
+    mono: typeof mono
   }
 
   interface PaletteOptions {
-    base: typeof base;
-    status: typeof statusColors;
-    mono: typeof mono;
+    base: typeof base
+    status: typeof statusColors
+    mono: typeof mono
   }
 }
 
@@ -64,46 +64,46 @@ const defaultTheme: Theme = createTheme({
   typography: {
     h1: {
       fontSize: 24,
-      lineHeight: "24px",
+      lineHeight: '24px',
       fontWeight: 700,
     },
     h2: {
       fontSize: 22,
-      lineHeight: "22px",
+      lineHeight: '22px',
       fontWeight: 700,
     },
     h3: {
       fontSize: 18,
-      lineHeight: "18px",
+      lineHeight: '18px',
       fontWeight: 700,
     },
     h4: {
       fontSize: 16,
-      lineHeight: "16px",
+      lineHeight: '16px',
       fontWeight: 700,
     },
     body1: {
       fontSize: 16,
-      lineHeight: "24px",
+      lineHeight: '24px',
       fontWeight: 500,
     },
     body2: {
       fontSize: 14,
-      lineHeight: "20px",
+      lineHeight: '20px',
       fontWeight: 500,
     },
     subtitle1: {
       fontSize: 12,
-      lineHeight: "16px",
+      lineHeight: '16px',
       fontWeight: 500,
     },
     caption: {
       fontSize: 11,
-      lineHeight: "16px",
+      lineHeight: '16px',
       fontWeight: 500,
     },
     button: {
-      fontFamily: ["Noto Sans JP", "sans-serif"].join(", "),
+      fontFamily: ['Noto Sans JP', 'sans-serif'].join(', '),
     },
     fontFamily: notoSanJP.style.fontFamily,
   },
@@ -117,23 +117,23 @@ const defaultTheme: Theme = createTheme({
           flexShrink: 0,
           fontWeight: 500,
           borderRadius: 8,
-          boxShadow: "none",
-          lineHeight: "16px",
-          fontStyle: "normal",
-          padding: "10px 24px",
-          textTransform: "none",
+          boxShadow: 'none',
+          lineHeight: '16px',
+          fontStyle: 'normal',
+          padding: '10px 24px',
+          textTransform: 'none',
         },
         contained: {
           background: base.black,
           color: base.white,
-          ":hover": {
+          ':hover': {
             backgroundColor: base.black,
-            boxShadow: "none",
+            boxShadow: 'none',
           },
-          ":focus": {
+          ':focus': {
             backgroundColor: base.black,
           },
-          ":disabled": {
+          ':disabled': {
             backgroundColor: mono[600],
             color: base.white,
           },
@@ -142,15 +142,15 @@ const defaultTheme: Theme = createTheme({
           background: base.white,
           border: `1px solid ${base.black}`,
           color: base.black,
-          ":hover": {
+          ':hover': {
             background: base.white,
             border: `1px solid ${base.black}`,
           },
-          ":focus": {
+          ':focus': {
             background: base.white,
             border: `1px solid ${base.black}`,
           },
-          ":disabled": {
+          ':disabled': {
             color: mono[200],
             borderColor: mono[200],
           },
@@ -166,12 +166,12 @@ const defaultTheme: Theme = createTheme({
     MuiChip: {
       styleOverrides: {
         root: {
-          padding: "6.5px 8px 6.5px 12px",
+          padding: '6.5px 8px 6.5px 12px',
           borderColor: base.primary,
           borderRadius: 70,
           height: 24,
           span: {
-            lineHeight: "11px",
+            lineHeight: '11px',
             fontSize: 11,
             fontWeight: 500,
           },
@@ -183,12 +183,12 @@ const defaultTheme: Theme = createTheme({
           marginLeft: 4,
           marginRight: 0,
           width: 14,
-          justifyContent: "flex-end",
+          justifyContent: 'flex-end',
         },
         outlined: {
           backgroundColor: base.bg_light,
           color: base.primary,
-          "&:hover": {
+          '&:hover': {
             backgroundColor: base.bg_light,
             color: base.primary,
           },
@@ -196,7 +196,7 @@ const defaultTheme: Theme = createTheme({
         filled: {
           backgroundColor: base.primary,
           color: base.white,
-          "&:hover": {
+          '&:hover': {
             backgroundColor: base.primary,
             color: base.white,
           },
@@ -207,12 +207,12 @@ const defaultTheme: Theme = createTheme({
       styleOverrides: {
         root: {
           fontSize: 12,
-          lineHeight: "16px",
+          lineHeight: '16px',
           color: mono[500],
-          "&.Mui-focused": {
+          '&.Mui-focused': {
             color: mono[500],
           },
-          "&.Mui-error": {
+          '&.Mui-error': {
             color: mono[500],
           },
         },
@@ -223,7 +223,7 @@ const defaultTheme: Theme = createTheme({
         root: {
           marginLeft: 0,
           fontSize: 12,
-          lineHeight: "16px",
+          lineHeight: '16px',
           color: statusColors.error,
           marginRight: 0,
         },
@@ -233,53 +233,53 @@ const defaultTheme: Theme = createTheme({
       styleOverrides: {
         root: {
           background: base.white,
-          color: mono[600] + "!important",
-          outline: "none",
+          color: mono[600] + '!important',
+          outline: 'none',
           paddingRight: 0,
           borderRadius: 4,
-          "& .MuiOutlinedInput-input": {
+          '& .MuiOutlinedInput-input': {
             fontSize: 14,
-            lineHeight: "20px",
-            fontStyle: "normal",
+            lineHeight: '20px',
+            fontStyle: 'normal',
             height: 16,
-            padding: "12px 10px 12px 16px",
+            padding: '12px 10px 12px 16px',
             webkitTextFillColor: mono[600],
           },
-          "&.MuiOutlinedInput-root": {
+          '&.MuiOutlinedInput-root': {
             fieldset: {
               borderColor: base.separate_nav,
             },
-            "&.Mui-focused fieldset": {
+            '&.Mui-focused fieldset': {
               border: `1px solid ${base.separate_nav}`,
             },
-            "&:hover fieldset": {
+            '&:hover fieldset': {
               border: `1px solid ${base.separate_nav}`,
             },
-            "&::placeholder": {
+            '&::placeholder': {
               color: mono[200],
             },
           },
-          "&.Mui-error": {
-            "&.Mui-focused fieldset": {
+          '&.Mui-error': {
+            '&.Mui-focused fieldset': {
               border: `1px solid ${statusColors.error}`,
             },
-            "&:hover fieldset": {
+            '&:hover fieldset': {
               border: `1px solid ${statusColors.error}`,
             },
           },
         },
         adornedStart: {
           paddingLeft: 12,
-          "& .MuiInputAdornment-root": {
+          '& .MuiInputAdornment-root': {
             marginRight: 0,
           },
-          "& .MuiOutlinedInput-input": {
-            padding: "12px 10px 12px 0px",
+          '& .MuiOutlinedInput-input': {
+            padding: '12px 10px 12px 0px',
           },
         },
         adornedEnd: {
-          "& .MuiOutlinedInput-input": {
-            padding: "12px 0px 12px 16px",
+          '& .MuiOutlinedInput-input': {
+            padding: '12px 0px 12px 16px',
           },
         },
       },
@@ -287,14 +287,14 @@ const defaultTheme: Theme = createTheme({
     MuiSelect: {
       styleOverrides: {
         root: {
-          "& .MuiSelect-icon": {
+          '& .MuiSelect-icon': {
             top: 9,
           },
-          "& .MuiOutlinedInput-input": {
+          '& .MuiOutlinedInput-input': {
             color: mono[600],
-            padding: "0 10px 0 16px",
+            padding: '0 10px 0 16px',
             fontSize: 14,
-            lineHeight: "20px",
+            lineHeight: '20px',
           },
         },
       },
@@ -302,7 +302,7 @@ const defaultTheme: Theme = createTheme({
     MuiList: {
       styleOverrides: {
         root: {
-          "&.MuiList-root": {
+          '&.MuiList-root': {
             paddingBottom: 0,
             paddingTop: 0,
           },
@@ -313,14 +313,14 @@ const defaultTheme: Theme = createTheme({
       styleOverrides: {
         tooltip: {
           fontSize: 12,
-          lineHeight: "16px",
+          lineHeight: '16px',
           color: base.white,
         },
       },
     },
   },
-});
+})
 
-defaultTheme.shadows[1] = "0px 2px 11px 0px #3B3C3E2E";
+defaultTheme.shadows[1] = '0px 2px 11px 0px #3B3C3E2E'
 
-export { defaultTheme };
+export { defaultTheme }

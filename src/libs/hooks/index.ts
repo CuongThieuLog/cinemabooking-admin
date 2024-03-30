@@ -1,2 +1,2 @@
-export * from "./clearObjRequest";
-export * from "./isEllipsisActive";
+export * from './clearObjRequest'
+export * from './isEllipsisActive'

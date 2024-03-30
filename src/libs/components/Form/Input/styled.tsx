@@ -1,4 +1,4 @@
-import { Button, styled } from "@mui/material";
+import { Button, styled } from '@mui/material'
 
 const ButtonActionPassword = styled(Button)(({ theme }) => ({
   width: 24,
@@ -6,9 +6,9 @@ const ButtonActionPassword = styled(Button)(({ theme }) => ({
   marginRight: 10,
   padding: 0,
   minWidth: 0,
-  ":hover": {
+  ':hover': {
     backgroundColor: theme.palette.base.white,
   },
-}));
+}))
 
-export { ButtonActionPassword };
+export { ButtonActionPassword }

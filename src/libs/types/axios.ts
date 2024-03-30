@@ -1,10 +1,10 @@
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from 'axios'
 
 export interface ErrorTypeResponse extends AxiosError {
   response: AxiosResponse<{
-    message: string;
+    message: string
     errors: {
-      [key: string]: string;
-    };
-  }>;
+      [key: string]: string
+    }
+  }>
 }
