@@ -1,8 +1,8 @@
+import { AxiosInterceptor } from "@/libs/config/axios";
+import AuthProvider from "@/libs/context/AuthContext";
+import { QueryClientProvider, ThemeProvider } from "@/libs/provider";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import { RouteChangesProvider } from "nextjs-router-events";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +15,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" suppressHydrationWarning={true}>
+      <body suppressHydrationWarning={true}>
+        <ThemeProvider options={{ key: "mui" }}>
+          <AuthProvider>
+            <RouteChangesProvider>
+              <AxiosInterceptor>
+                <QueryClientProvider>{children}</QueryClientProvider>
+              </AxiosInterceptor>
+            </RouteChangesProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
