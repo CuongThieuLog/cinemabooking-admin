@@ -1,10 +1,10 @@
-import { TypeOf, z } from 'zod'
+import { TypeOf, z } from "zod";
 
 const LinkData = z.object({
   url: z.string(),
   label: z.string(),
   active: z.boolean(),
-})
+});
 
 export const PaginationSchema = z.object({
   current_page: z.number(),
@@ -19,6 +19,6 @@ export const PaginationSchema = z.object({
   prev_page_url: z.string(),
   to: z.number(),
   total: z.number(),
-})
+});
 
-export type PaginationType = TypeOf<typeof PaginationSchema>
+export type PaginationType = TypeOf<typeof PaginationSchema>;

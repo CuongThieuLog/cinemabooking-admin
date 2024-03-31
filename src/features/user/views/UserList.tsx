@@ -1,20 +1,24 @@
-'use client'
+"use client";
 
-import { ReactTable } from '@/libs/components/Table'
-import { ColumnDef } from '@tanstack/react-table'
-import { useRouter } from 'next/navigation'
-import { convertIsPaidText, convertTextHasAssets, useUserListQuery } from '../hooks'
-import { INCOME_OPTIONS, WILLINGNESS_OPTIONS } from '../options'
-import { UserType } from '../type'
+import { ReactTable } from "@/libs/components/Table";
+import { ColumnDef } from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
+import {
+  convertIsPaidText,
+  convertTextHasAssets,
+  useUserListQuery,
+} from "../hooks";
+import { INCOME_OPTIONS, ROLE_OPTIONS } from "../options";
+import { UserType } from "../type";
 
 const UserList = () => {
-  const { tableData } = useUserListQuery()
-  const router = useRouter()
+  const { tableData } = useUserListQuery();
+  const router = useRouter();
 
   const columns: ColumnDef<UserType>[] = [
     {
-      header: 'ユーザーID',
-      accessorKey: 'id',
+      header: "ID",
+      accessorKey: "id",
       meta: {
         width: 72,
         headStyle: {
@@ -22,142 +26,69 @@ const UserList = () => {
         },
         cellStyle: {
           width: 56,
-          textAlign: 'center',
+          textAlign: "center",
           fontSize: 14,
-          lineHeight: '20px',
+          lineHeight: "20px",
           fontWeight: 400,
-          padding: '0 8px',
+          padding: "0 8px",
         },
       },
     },
     {
-      header: '氏名',
-      accessorKey: 'name',
+      header: "Họ và tên",
+      accessorKey: "full_name",
       meta: {
-        width: 120,
-        cellStyle: {
-          width: 104,
-          fontSize: 14,
-          lineHeight: '20px',
-          fontWeight: 400,
-          padding: '0 8px',
-        },
-      },
-    },
-    {
-      header: 'メールアドレス',
-      accessorKey: 'email',
-      meta: {
-        cellStyle: {
-          fontSize: 14,
-          lineHeight: '20px',
-          fontWeight: 400,
-          padding: '0 8px',
-        },
-      },
-    },
-    {
-      header: '電話番号',
-      accessorKey: 'tel',
-      meta: {
-        width: 120,
-        cellStyle: {
-          fontSize: 14,
-          lineHeight: '20px',
-          fontWeight: 400,
-          width: 104,
-          padding: '0 8px',
-        },
-      },
-    },
-    {
-      header: '購入意欲',
-      accessorKey: 'willing',
-      meta: {
-        width: 148,
-        cellStyle: {
-          fontSize: 12,
-          lineHeight: '16px',
-          fontWeight: 400,
-          width: 104,
-          padding: '0 8px',
-        },
-      },
-      cell: ({ row }) => {
-        return WILLINGNESS_OPTIONS[row.original.willing - 1].label
-      },
-    },
-    {
-      header: '年収（万）',
-      accessorKey: 'income',
-      meta: {
-        width: 80,
-        cellStyle: {
-          fontSize: 12,
-          lineHeight: '16px',
-          fontWeight: 400,
-          width: 64,
-          padding: '0 8px',
-        },
-      },
-      cell: ({ row }) => {
-        return INCOME_OPTIONS[row.original.income - 1].label
-      },
-    },
-    {
-      header: 'マンション\n所有',
-      accessorKey: 'has_assets',
-      meta: {
-        width: 80,
-        cellStyle: {
-          fontSize: 12,
-          lineHeight: '16px',
-          fontWeight: 400,
-          padding: '0 8px',
-        },
-      },
-      cell: ({ row }) => {
-        return convertTextHasAssets(row.original.has_assets)
-      },
-    },
-    {
-      header: '申込数',
-      accessorKey: 'amount_used',
-      meta: {
-        width: 64,
+        width: 100,
         headStyle: {
-          paddingLeft: '8px',
+          paddingLeft: 4,
         },
         cellStyle: {
+          width: 200,
+          textAlign: "center",
           fontSize: 14,
-          lineHeight: '20px',
+          lineHeight: "20px",
           fontWeight: 400,
-          padding: '0 8px',
-          textAlign: 'end',
+          padding: "0 8px",
         },
-      },
-      cell: () => {
-        return '-'
       },
     },
     {
-      header: '料金プラン',
-      accessorKey: 'is_paid',
+      header: "Email",
+      accessorKey: "email",
       meta: {
-        width: 80,
+        width: 100,
+        headStyle: {
+          paddingLeft: 4,
+        },
         cellStyle: {
+          width: 200,
+          textAlign: "center",
           fontSize: 14,
-          lineHeight: '20px',
+          lineHeight: "20px",
           fontWeight: 400,
-          padding: '0 8px',
-          textAlign: 'start',
+          padding: "0 8px",
         },
       },
-      cell: ({ row }) => {
-        return convertIsPaidText(row.original.is_paid)
+    },
+    {
+      header: "Quyền",
+      accessorKey: "role",
+      meta: {
+        width: 100,
+        headStyle: {
+          paddingLeft: 4,
+        },
+        cellStyle: {
+          width: 200,
+          textAlign: "center",
+          fontSize: 14,
+          lineHeight: "20px",
+          fontWeight: 400,
+          padding: "0 8px",
+        },
       },
     },
-  ]
+  ];
 
   return (
     <ReactTable
@@ -166,11 +97,11 @@ const UserList = () => {
       action={{
         disabledDetail: false,
         onDetail: (id) => {
-          router.push(`/users/${id}/detail`)
+          router.push(`/users/${id}/detail`);
         },
       }}
     />
-  )
-}
+  );
+};
 
-export { UserList }
+export { UserList };

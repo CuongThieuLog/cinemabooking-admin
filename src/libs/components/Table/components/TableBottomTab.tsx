@@ -1,121 +1,126 @@
-import { deleteAdmins } from '@/libs/api/admin'
-import { deleteRealEstates } from '@/libs/api/real-estate'
-import { SIDE_BAR_WIDTH } from '@/libs/components/Layout/Sidebar'
-import { Modal } from '@/libs/components/Modal'
-import { Paper, Stack } from '@mui/material'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { usePathname } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
-import { ModalDelete } from '../../Modal/ModalDelete'
-import { useReactTableContext } from '../ReactTable/context'
-import { usePaginationHandler } from '../ReactTable/hooks'
-import { ButtonActionTable, ButtonRed as ButtonConfirm } from '../styled'
+import { deleteAdmins } from "@/libs/api/admin";
+import { deleteRealEstates } from "@/libs/api/real-estate";
+import { SIDE_BAR_WIDTH } from "@/libs/components/Layout/Sidebar";
+import { Modal } from "@/libs/components/Modal";
+import { Paper, Stack } from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { ModalDelete } from "../../Modal/ModalDelete";
+import { useReactTableContext } from "../ReactTable/context";
+import { usePaginationHandler } from "../ReactTable/hooks";
+import { ButtonActionTable, ButtonRed as ButtonConfirm } from "../styled";
 
 type SelectionStateType = {
-  id: string
-  name: string
-}
+  id: string;
+  name: string;
+};
 
 export const defaultActionApi = {
   admins: {
     delete: deleteAdmins,
-    title: '管理者削除',
+    title: "管理者削除",
   },
   articles: {
     delete: () => {},
-    title: '',
+    title: "",
   },
   company: {
     delete: () => {},
-    title: '',
+    title: "",
   },
-  '/': {
+  "/": {
     delete: deleteRealEstates,
-    title: '物件削除',
+    title: "物件削除",
   },
   users: {
     delete: () => {},
-    title: '',
+    title: "",
   },
-}
+};
 
-export type ActionPath = keyof typeof defaultActionApi
-export const TABLE_BOTTOM_TAB_HEIGHT = 120
+export type ActionPath = keyof typeof defaultActionApi;
+export const TABLE_BOTTOM_TAB_HEIGHT = 120;
 
 function TableBottomTab() {
-  const pathname = usePathname()
-  const { instance, onCopy } = useReactTableContext()
-  const rowSelection = instance.getSelectedRowModel().flatRows
-  const [selectedIds, setSelectedIds] = useState<SelectionStateType[]>([])
-  const path = (pathname.split('/')[1] ? pathname.split('/')[1] : '/') as ActionPath
-  const queryClient = useQueryClient()
+  const pathname = usePathname();
+  const { instance, onCopy } = useReactTableContext();
+  const rowSelection = instance.getSelectedRowModel().flatRows;
+  const [selectedIds, setSelectedIds] = useState<SelectionStateType[]>([]);
+  const path = (
+    pathname.split("/")[1] ? pathname.split("/")[1] : "/"
+  ) as ActionPath;
+  const queryClient = useQueryClient();
   const { mutate: handleDelete, isPending } = useMutation({
-    mutationFn: defaultActionApi[path].delete as (ids: string[]) => Promise<void>,
-  })
-  const { setPageIndex, handleChangePagination } = usePaginationHandler()
+    mutationFn: defaultActionApi[path].delete as (
+      ids: string[]
+    ) => Promise<void>,
+  });
+  const { setPageIndex, handleChangePagination } = usePaginationHandler();
 
   useEffect(() => {
     setSelectedIds(
       rowSelection.map((row) => {
-        const original = (row.original as { name: string }).name
+        const original = (row.original as { name: string }).name;
 
         return {
           id: row.id,
           name: original,
-        }
-      }),
-    )
-  }, [rowSelection])
+        };
+      })
+    );
+  }, [rowSelection]);
 
-  const isShowBottomTab = selectedIds.length > 0
-  const [openModal, setOpenModal] = useState(false)
-  const [openModalDeleteSuccess, setOpenModalDeleteSuccess] = useState<boolean>(false)
+  const isShowBottomTab = selectedIds.length > 0;
+  const [openModal, setOpenModal] = useState(false);
+  const [openModalDeleteSuccess, setOpenModalDeleteSuccess] =
+    useState<boolean>(false);
 
   const handleCloseModal = useCallback(() => {
-    instance.resetRowSelection()
-    setOpenModal(false)
-    setSelectedIds([])
-  }, [instance])
+    instance.resetRowSelection();
+    setOpenModal(false);
+    setSelectedIds([]);
+  }, [instance]);
 
-  const handleOpenModal = () => setOpenModal(true)
+  const handleOpenModal = () => setOpenModal(true);
 
   const handleSubmit = () => {
     handleDelete(
       rowSelection.map((item) => item.id),
       {
         onSuccess: () => {
-          queryClient.invalidateQueries()
-          handleCloseModal()
-          setOpenModalDeleteSuccess(true)
+          queryClient.invalidateQueries();
+          handleCloseModal();
+          setOpenModalDeleteSuccess(true);
         },
         onError: () => {
-          queryClient.invalidateQueries()
-          handleCloseModal()
+          queryClient.invalidateQueries();
+          handleCloseModal();
         },
-      },
-    )
-  }
+      }
+    );
+  };
 
   const handleCloseModalDeleteSuccess = () => {
-    setPageIndex(1)
-    typeof handleChangePagination === 'function' &&
+    setPageIndex(1);
+    typeof handleChangePagination === "function" &&
       handleChangePagination({
         page: 1,
-      })
+      });
 
-    setOpenModalDeleteSuccess(false)
-  }
+    setOpenModalDeleteSuccess(false);
+  };
 
-  const hasCopyFunction = typeof onCopy === 'function'
-  const firstSelectedId = selectedIds[0]?.id
-  const disabledCopy = selectedIds.length > 1
+  const hasCopyFunction = typeof onCopy === "function";
+  const firstSelectedId = selectedIds[0]?.id;
+  const disabledCopy = selectedIds.length > 1;
 
   return (
     <>
       {isShowBottomTab && (
         <Paper
           sx={{
-            position: 'fixed',
+            position: "fixed",
             bottom: 0,
             left: SIDE_BAR_WIDTH,
             right: 0,
@@ -132,7 +137,7 @@ function TableBottomTab() {
             gap={2}
           >
             <ButtonActionTable variant="outlined" onClick={handleCloseModal}>
-              キャンセル
+              Huỷ bỏ
             </ButtonActionTable>
 
             {hasCopyFunction && (
@@ -160,7 +165,7 @@ function TableBottomTab() {
         open={openModal}
         textSubmit="削除する"
         title={defaultActionApi[path].title}
-        description={`${selectedIds.map((item) => item.name).join('、 ')}を削除してよろしいですか？`}
+        description={`${selectedIds.map((item) => item.name).join("、 ")}を削除してよろしいですか？`}
         isLoading={isPending}
         handleCloseModal={handleCloseModal}
         handleSubmit={handleSubmit}
@@ -172,7 +177,7 @@ function TableBottomTab() {
         handleCloseModal={handleCloseModalDeleteSuccess}
       />
     </>
-  )
+  );
 }
 
-export { TableBottomTab }
+export { TableBottomTab };

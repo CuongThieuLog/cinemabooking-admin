@@ -1,4 +1,4 @@
-import { mono } from '@/libs/config/theme'
+import { mono } from "@/libs/config/theme";
 import {
   FormControlProps,
   MenuItem,
@@ -6,32 +6,36 @@ import {
   SelectProps as RawSelectProps,
   SxProps,
   Typography,
-} from '@mui/material'
-import Image from 'next/image'
-import { FieldValues, UseControllerProps, useController } from 'react-hook-form'
-import { AddControlProps, InputControl } from '../Input/InputControl'
+} from "@mui/material";
+import Image from "next/image";
+import {
+  FieldValues,
+  UseControllerProps,
+  useController,
+} from "react-hook-form";
+import { AddControlProps, InputControl } from "../Input/InputControl";
 
 type SelectOption = {
-  label: string
-  value: unknown
-}
+  label: string;
+  value: unknown;
+};
 
 export type SelectProps<T extends FieldValues> = UseControllerProps<T> &
   RawSelectProps &
   AddControlProps & {
-    controlProps?: FormControlProps
-    options?: SelectOption[]
-    inputSx?: SxProps
-    fullWidth?: boolean
-    width?: string
-    hiddenEmpty?: boolean
-    selectedColor?: string
-  }
+    controlProps?: FormControlProps;
+    options?: SelectOption[];
+    inputSx?: SxProps;
+    fullWidth?: boolean;
+    width?: string;
+    hiddenEmpty?: boolean;
+    selectedColor?: string;
+  };
 
 export type SelectFormProps = {
-  options?: SelectOption[]
-  sx?: SxProps
-}
+  options?: SelectOption[];
+  sx?: SxProps;
+};
 
 function Select<T extends FieldValues>({
   name,
@@ -55,9 +59,9 @@ function Select<T extends FieldValues>({
   const {
     field: { ref, value, ...inputProps },
     fieldState: { error },
-  } = useController({ name, control, defaultValue })
+  } = useController({ name, control, defaultValue });
 
-  console.log(sx)
+  console.log(sx);
 
   return (
     <InputControl
@@ -76,10 +80,10 @@ function Select<T extends FieldValues>({
         value={value}
         {...inputProps}
         sx={{
-          '& .MuiSelect-select': {
+          "& .MuiSelect-select": {
             color: selectedColor || mono[600],
           },
-          width: width || '100%',
+          width: width || "100%",
           height: 40,
           ...sx,
         }}
@@ -94,19 +98,19 @@ function Select<T extends FieldValues>({
           />
         )}
         renderValue={(value) => {
-          const valueString = value
-          const option = options.find((option) => option.value == valueString)
+          const valueString = value;
+          const option = options.find((option) => option.value == valueString);
 
           return Boolean(value) ? (
             option?.label
           ) : (
             <Typography variant="body2" color="grey.200">
-              {placeholder || ' 選択'}
+              {placeholder || " 選択"}
             </Typography>
-          )
+          );
         }}
       >
-        {!hiddenEmpty && <MenuItem value={defaultValue}>Empty</MenuItem>}
+        {!hiddenEmpty && <MenuItem value={defaultValue}>Trống</MenuItem>}
         {options.map((option: SelectOption) => (
           <MenuItem key={`${option.value}`} value={option.value as string}>
             {option.label}
@@ -114,7 +118,7 @@ function Select<T extends FieldValues>({
         ))}
       </MuiSelect>
     </InputControl>
-  )
+  );
 }
 
-export { Select }
+export { Select };

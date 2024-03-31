@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { Stack, Typography } from '@mui/material'
+import { Stack, Typography } from "@mui/material";
 
 const NoData = () => {
   return (
@@ -9,7 +9,7 @@ const NoData = () => {
         データがありません
       </Typography>
     </Stack>
-  )
-}
+  );
+};
 
-export { NoData }
+export { NoData };

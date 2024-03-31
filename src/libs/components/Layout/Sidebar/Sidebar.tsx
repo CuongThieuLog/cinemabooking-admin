@@ -1,34 +1,34 @@
-import { base } from '@/libs/config/theme'
-import { useAuth } from '@/libs/context'
-import { IconButton, List, Stack, Typography } from '@mui/material'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import AccountIcon from 'public/assets/svgs/account.svg'
-import AccountActiveIcon from 'public/assets/svgs/account_active.svg'
-import LogoutIcon from 'public/assets/svgs/logout.svg'
-import { useState } from 'react'
-import { Modal } from '../../Modal'
-import { ListItemButton } from './ItemSidebar'
-import { menus } from './menu'
+import { base } from "@/libs/config/theme";
+import { useAuth } from "@/libs/context";
+import { IconButton, List, Stack, Typography } from "@mui/material";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import AccountIcon from "public/assets/svgs/account.svg";
+import AccountActiveIcon from "public/assets/svgs/account_active.svg";
+import LogoutIcon from "public/assets/svgs/logout.svg";
+import { useState } from "react";
+import { Modal } from "../../Modal";
+import { ListItemButton } from "./ItemSidebar";
+import { menus } from "./menu";
 
-export const SIDE_BAR_WIDTH = 240
+export const SIDE_BAR_WIDTH = 240;
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(false)
-  const handleOpenModal = () => setOpen(true)
-  const handleCloseModal = () => setOpen(false)
-  const { admin, loading, handleLogout } = useAuth()
-  const pathName = usePathname()
-  const selfInfoActive = pathName.includes('self-info')
+  const [open, setOpen] = useState(false);
+  const handleOpenModal = () => setOpen(true);
+  const handleCloseModal = () => setOpen(false);
+  const { admin, loading, handleLogout } = useAuth();
+  const pathName = usePathname();
+  const selfInfoActive = pathName.includes("self-info");
 
   return (
     <Stack
       sx={{
-        position: 'fixed',
+        position: "fixed",
         width: SIDE_BAR_WIDTH,
-        height: '100%',
+        height: "100%",
         background: base.white,
-        alignItems: 'center',
+        alignItems: "center",
         pt: 3.5,
       }}
     >
@@ -40,7 +40,7 @@ const Sidebar = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Typography variant="h2">ロゴ</Typography>
+        <Typography variant="h2">CINEMA</Typography>
 
         <Stack
           width={68}
@@ -50,7 +50,7 @@ const Sidebar = () => {
           alignItems="center"
         >
           <Typography variant="subtitle1" lineHeight="18px">
-            管理画面
+            Booking
           </Typography>
         </Stack>
       </Stack>
@@ -59,9 +59,9 @@ const Sidebar = () => {
         sx={{
           px: 1,
           mt: 6,
-          py: '2px',
-          width: '100%',
-          bgcolor: 'background.white',
+          py: "2px",
+          width: "100%",
+          bgcolor: "background.white",
         }}
         component="nav"
       >
@@ -89,10 +89,10 @@ const Sidebar = () => {
             alignItems="center"
             component={Link}
             href="/self-info"
-            sx={{ textDecoration: 'none' }}
+            sx={{ textDecoration: "none" }}
             width={176}
             height={60}
-            bgcolor={selfInfoActive ? base.primary_pale : 'transparent'}
+            bgcolor={selfInfoActive ? base.primary_pale : "transparent"}
             borderRadius="12px"
             padding="14px 10px 14px 14px"
           >
@@ -101,7 +101,7 @@ const Sidebar = () => {
             <Typography
               variant="subtitle1"
               lineHeight="15px"
-              color={selfInfoActive ? 'base.black' : 'base.white'}
+              color={selfInfoActive ? "base.black" : "base.white"}
               width="112px"
               whiteSpace="nowrap"
               overflow="hidden"
@@ -116,22 +116,27 @@ const Sidebar = () => {
             <LogoutIcon />
           </IconButton>
         </Stack>
-        <Typography fontSize={9} lineHeight="11px" fontWeight={500} color="base.white">
+        <Typography
+          fontSize={9}
+          lineHeight="11px"
+          fontWeight={500}
+          color="base.white"
+        >
           ©︎ xxxx All Rights Reserved.
         </Typography>
       </Stack>
 
       <Modal
         open={open}
-        title="ログアウト"
-        textSubmit="ログアウトする"
+        title="Đăng xuất"
+        textSubmit="Đăng xuất"
         handleSubmit={handleLogout}
         handleCloseModal={handleCloseModal}
-        description="ログアウトしてよろしいですか？"
+        description="Bạn có chắc chắn muốn thoát?"
         isLoading={loading}
       />
     </Stack>
-  )
-}
+  );
+};
 
-export { Sidebar }
+export { Sidebar };
