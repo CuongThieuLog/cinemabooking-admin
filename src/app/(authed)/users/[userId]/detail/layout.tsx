@@ -1,9 +1,9 @@
-import { Metadata } from 'next'
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'ユーザー詳細',
-}
+  title: "ユーザー詳細",
+};
 
 export default function Page({ children }: { children: React.ReactNode }) {
-  return children
+  return children;
 }

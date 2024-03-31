@@ -51,18 +51,12 @@ export type BookMarkType = {
 };
 
 export type UserDetailType = {
-  id: string;
-  name: string;
-  birthday: string;
-  address: string;
-  has_assets: 0 | 1;
-  asset_number: number;
+  id: number;
+  first_name: string;
+  last_name: string;
   email: string;
-  tel: string;
-  income: number;
-  willing: number;
-  asset_name: string;
-  book_marks: BookMarkType[];
+  role: string;
+  created_at: string;
 };
 
 export type UserDetailResponseType = {
@@ -80,21 +74,14 @@ export type QueryInputUserDetailType = {
 };
 
 export const UserCreateInputSchema = z.object({
-  name: z.string().optional(),
+  first_name: z.string().optional(),
+  last_name: z.string().optional(),
   email: z.string().optional(),
-  address: z.string().optional(),
-  tel: z.string().optional().nullable(),
-  birthday: z.string().or(z.date().optional()).optional(),
+  email_verified: z.string().optional().nullable(),
   password: z.string().optional(),
-  willing: z.string().or(z.number().optional()).optional(),
-  has_assets: z.number().optional(),
-  asset_name: z.string().optional().nullable(),
-  asset_number: z
-    .string()
-    .or(z.number().optional().nullable())
-    .optional()
-    .nullable(),
-  income: z.string().or(z.number().optional()).optional(),
+  role: z.string().optional(),
+  created_at: z.string().optional().nullable(),
+  updated_at: z.string().optional().nullable(),
 });
 
 export const UserUpdateInputSchema = z

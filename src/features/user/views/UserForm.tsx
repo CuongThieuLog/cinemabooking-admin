@@ -1,24 +1,23 @@
-'use client'
+"use client";
 
-import { DetailItem } from '@/features/article/components'
-import { DatePicker } from '@/libs/components/DatePicker'
-import { Input, InputPassword, RadioGroup, Select } from '@/libs/components/Form'
-import { FormLayout } from '@/libs/components/Form/Layout/FormLayout'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Stack } from '@mui/material'
-import { useParams, useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { useUserCreate } from '../hooks/useUserCreate'
-import { useUserDetail } from '../hooks/useUserDetail'
-import { useUserUpdate } from '../hooks/useUserUpdate'
-import { HAS_ASSETS_OPTIONS, INCOME_OPTIONS, WILLINGNESS_OPTIONS } from '../options'
-import { UserCreateInputSchema, UserCreateInputType } from '../type'
+import { DetailItem } from "@/features/article/components";
+import { Input, InputPassword, Select } from "@/libs/components/Form";
+import { FormLayout } from "@/libs/components/Form/Layout/FormLayout";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Stack } from "@mui/material";
+import { useParams, useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { useUserCreate } from "../hooks/useUserCreate";
+import { useUserDetail } from "../hooks/useUserDetail";
+import { useUserUpdate } from "../hooks/useUserUpdate";
+import { ROLE_OPTIONS } from "../options";
+import { UserCreateInputSchema, UserCreateInputType } from "../type";
 
 const UserForm = () => {
-  const router = useRouter()
-  const { userId } = useParams()
-  const { data: userDetail } = useUserDetail(userId as string)
+  const router = useRouter();
+  const { userId } = useParams();
+  const { data: userDetail } = useUserDetail(userId as string);
 
   const {
     control,
@@ -29,183 +28,129 @@ const UserForm = () => {
     formState: { isDirty },
   } = useForm<UserCreateInputType>({
     defaultValues: {
-      email: '',
-      name: '',
-      password: '',
-      address: '',
-      asset_name: '',
-      asset_number: '',
-      birthday: '',
-      has_assets: 0,
-      income: '',
-      tel: '',
-      willing: '',
+      first_name: "",
+      last_name: "",
+      email: "",
+      role: "",
+      password: "",
+      created_at: "",
+      updated_at: "",
     },
     resolver: zodResolver(UserCreateInputSchema),
     values: userDetail,
-  })
+  });
 
-  const { mutate: createUser } = useUserCreate(setError)
-  const { mutate: updateUser } = useUserUpdate(setError)
+  const { mutate: createUser } = useUserCreate(setError);
+  const { mutate: updateUser } = useUserUpdate(setError);
 
   const onSubmit: SubmitHandler<UserCreateInputType> = (data) => {
     if (userId) {
       updateUser(
         { id: userId as string, ...data },
         {
-          onSuccess: () => router.push(`/users/${userId}/detail`),
-        },
-      )
-      return
+          onSuccess: () => {
+            router.push(`/users/${userId}/detail`);
+            toast.success("Cập nhật người dùng thành công");
+          },
+          onError: () => {
+            toast.error("Cập nhật người dùng thất bại");
+          },
+        }
+      );
+      return;
     }
 
     createUser(data, {
-      onSuccess: () => router.push('/users'),
-    })
-  }
-
-  const disabledAssets = watch('has_assets') == HAS_ASSETS_OPTIONS[1].value
-
-  useEffect(() => {
-    if (disabledAssets) {
-      setValue('asset_name', '')
-      setValue('asset_number', '')
-    }
-  }, [disabledAssets, setValue])
+      onSuccess: () => router.push("/users"),
+    });
+  };
 
   return (
     <FormLayout
-      title={userId ? 'ユーザー詳細' : 'ユーザー登録'}
+      title={userId ? "Chỉnh sửa" : "Đăng kí người dùng"}
       onSubmit={handleSubmit(onSubmit)}
       isDirty={isDirty}
     >
       <Stack direction="row">
         <Stack spacing="1px">
           <Stack direction="row" alignItems="center" spacing={4}>
-            <DetailItem label="ユーザー情報" value={userDetail?.id ? userDetail.id : '-'} />
+            <DetailItem
+              label="ID"
+              value={userDetail?.id ? userDetail.id : "-"}
+            />
 
-            <Input
+            <Select
               control={control}
-              name="email"
-              label="メールアドレス"
+              name="role"
+              label="Quyền"
               labelLeft
               width="320px"
-              placeholder="入力してください"
-              autoComplete="email"
+              placeholder="Quyền"
+              options={ROLE_OPTIONS}
+              hiddenEmpty
             />
           </Stack>
 
           <Stack direction="row" gap={4}>
             <Input
               control={control}
-              name="name"
-              label="名前"
+              name="first_name"
+              label="Họ"
               labelLeft
               width="320px"
-              placeholder="入力してください"
+              placeholder="Họ"
+              disabled
             />
 
             <InputPassword
               control={control}
               name="password"
-              label="パスワード"
+              label="Mật khẩu"
               labelLeft
               width="320px"
-              placeholder="英数字記号8文字以上で入力してください"
+              placeholder="Mật khẩu"
               autoComplete="new-password"
+              disabled
             />
           </Stack>
 
           <Stack direction="row" gap={4}>
             <Input
               control={control}
-              name="tel"
-              label="電話番号"
+              name="last_name"
+              label="Tên"
               labelLeft
               width="320px"
-              placeholder="入力してください"
+              placeholder="Tên"
+              disabled
             />
 
-            <DatePicker
+            <Input
               control={control}
-              name="birthday"
-              label="生年月日"
+              name="created_at"
+              label="Ngày tạo"
               labelLeft
-              sx={{ width: '320px' }}
-              placeholder="選択してください"
               width="320px"
+              placeholder="Ngày tạo"
+              disabled
             />
           </Stack>
 
           <Stack direction="row" gap={4}>
             <Input
               control={control}
-              name="address"
-              label="住所(自宅)"
+              name="email"
+              label="Email"
               labelLeft
               width="320px"
-              placeholder="入力してください"
-            />
-
-            <Select
-              control={control}
-              name="income"
-              label="現在の年収"
-              labelLeft
-              width="320px"
-              placeholder="選択してください"
-              options={INCOME_OPTIONS}
-              hiddenEmpty
-            />
-          </Stack>
-
-          <Stack direction="row" gap={4}>
-            <Select
-              control={control}
-              name="willing"
-              label="物件購入意欲"
-              labelLeft
-              options={WILLINGNESS_OPTIONS}
-              placeholder="選択してください"
-              width="320px"
-              hiddenEmpty
-            />
-
-            <RadioGroup
-              control={control}
-              name="has_assets"
-              label="マンション所有(自宅)"
-              labelLeft
-              width="320px"
-              options={HAS_ASSETS_OPTIONS}
-            />
-          </Stack>
-
-          <Stack direction="row" gap={4}>
-            <Input
-              control={control}
-              name="asset_name"
-              label="マンション名"
-              labelLeft
-              width="320px"
-              placeholder="入力してください"
-              disabled={disabledAssets}
-            />
-
-            <Input
-              control={control}
-              name="asset_number"
-              label="マンション号室"
-              labelLeft
-              width="320px"
-              placeholder="入力してください"
-              disabled={disabledAssets}
+              placeholder="Email"
+              disabled
             />
           </Stack>
         </Stack>
       </Stack>
     </FormLayout>
-  )
-}
+  );
+};
 
-export { UserForm }
+export { UserForm };

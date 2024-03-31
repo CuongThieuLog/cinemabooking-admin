@@ -1,36 +1,43 @@
-'use client'
+"use client";
 
-import { Stack, Typography } from '@mui/material'
-import { useRouter } from 'next/navigation'
-import CopyIcon from 'public/assets/svgs/copy.svg'
-import DeleteIcon from 'public/assets/svgs/delete.svg'
-import EditIcon from 'public/assets/svgs/edit.svg'
-import { BreadcrumbType, Breadcrumbs } from '../../BreadCrumbs'
-import { ButtonAction } from './styled'
+import { Stack, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
+import CopyIcon from "public/assets/svgs/copy.svg";
+import DeleteIcon from "public/assets/svgs/delete.svg";
+import EditIcon from "public/assets/svgs/edit.svg";
+import { BreadcrumbType, Breadcrumbs } from "../../BreadCrumbs";
+import { ButtonAction } from "./styled";
 
 interface HeaderProps {
-  title: string
-  editPath?: string
-  copyPath?: string
-  deleteFunction?: () => void
-  isPending?: boolean
-  pathArrCustom?: BreadcrumbType[]
-  hiddenBreadcrumb?: boolean
+  title: string;
+  editPath?: string;
+  copyPath?: string;
+  deleteFunction?: () => void;
+  isPending?: boolean;
+  pathArrCustom?: BreadcrumbType[];
+  hiddenBreadcrumb?: boolean;
 }
 
 const Header = (props: HeaderProps) => {
-  const router = useRouter()
-  const { title, editPath, deleteFunction, isPending, pathArrCustom, hiddenBreadcrumb, copyPath } =
-    props
+  const router = useRouter();
+  const {
+    title,
+    editPath,
+    deleteFunction,
+    isPending,
+    pathArrCustom,
+    hiddenBreadcrumb,
+    copyPath,
+  } = props;
 
   if (hiddenBreadcrumb)
     return (
       <Typography variant="h2" color="grey.600">
         {title}
       </Typography>
-    )
+    );
 
-  if (hiddenBreadcrumb) return <Typography variant="h2">{title}</Typography>
+  if (hiddenBreadcrumb) return <Typography variant="h2">{title}</Typography>;
 
   return (
     <Stack spacing={3}>
@@ -60,7 +67,7 @@ const Header = (props: HeaderProps) => {
               onClick={() => router.push(editPath)}
               disabled={isPending}
             >
-              編集
+              Sửa
             </ButtonAction>
           )}
 
@@ -71,13 +78,13 @@ const Header = (props: HeaderProps) => {
               onClick={deleteFunction}
               disabled={isPending}
             >
-              削除
+              Xoá
             </ButtonAction>
           )}
         </Stack>
       </Stack>
     </Stack>
-  )
-}
+  );
+};
 
-export { Header }
+export { Header };

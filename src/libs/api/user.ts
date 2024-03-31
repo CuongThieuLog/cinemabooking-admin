@@ -3,78 +3,83 @@ import {
   UserListQueryInputType,
   UserListType,
   UserUpdateInputType,
-} from '@/features/user'
-import { QueryInputUserDetailType, UserDetailResponseType } from '@/features/user/type'
-import { formatRequestDate } from '@/utils/format'
-import request from '../config/axios'
-import { clearObjRequest } from '../hooks'
+} from "@/features/user";
+import {
+  QueryInputUserDetailType,
+  UserDetailResponseType,
+} from "@/features/user/type";
+import request from "../config/axios";
 
 export const getListUser = async (params: UserListQueryInputType) => {
   try {
-    const response = await request.get<UserListType>('/users/list', { params })
+    const response = await request.get<UserListType>("/users/list", { params });
 
-    return response.data
+    return response.data;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
 export const createUser = async (data: UserCreateInputType) => {
   try {
-    const response = await request.post('/users/registration', {
+    const response = await request.post("/users/registration", {
       ...data,
-      birthday: formatRequestDate(data.birthday),
-    })
+    });
 
-    return response.data
+    return response.data;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
 export const getUser = async (id: string) => {
   try {
-    const response = await request.get<UserDetailResponseType>(`/users/detail/${id}`)
-    return response.data.data
+    const response = await request.get<UserDetailResponseType>(
+      `/users/detail/${id}`
+    );
+    return response.data.data;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
 export const updateUser = async (data: UserUpdateInputType) => {
   try {
-    const { id, ...dataRequest } = data
-    const cleanedRequest = clearObjRequest({
-      ...dataRequest,
-      birthday: formatRequestDate(dataRequest.birthday),
-    })
+    const { id, ...dataRequest } = data;
 
-    const response = await request.put(`/users/update/${id}`, cleanedRequest)
-    return response.data
+    const response = await request.patch(`/users/update/${id}`, dataRequest);
+    return response.data;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
-export const getUserDetail = async ({ column, sort_by, userId }: QueryInputUserDetailType) => {
+export const getUserDetail = async ({
+  column,
+  sort_by,
+  userId,
+}: QueryInputUserDetailType) => {
   try {
-    const response = await request.get<UserDetailResponseType>(`/users/detail/${userId}`, {
-      params: {
-        sort_by,
-        column,
-      },
-    })
-    return response.data.data
+    const response = await request.get<UserDetailResponseType>(
+      `/users/detail/${userId}`,
+      {
+        params: {
+          sort_by,
+          column,
+        },
+      }
+    );
+    return response.data;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
 export const deleteUser = async (userId: string) => {
   try {
-    const response = await request.delete(`/users/delete/${userId}`)
-    return response.data
+    const response = await request.delete(`/users/delete/${userId}`);
+    return response.data;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};

@@ -61,8 +61,6 @@ function Select<T extends FieldValues>({
     fieldState: { error },
   } = useController({ name, control, defaultValue });
 
-  console.log(sx);
-
   return (
     <InputControl
       fieldError={error}

@@ -3,12 +3,7 @@
 import { ReactTable } from "@/libs/components/Table";
 import { ColumnDef } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
-import {
-  convertIsPaidText,
-  convertTextHasAssets,
-  useUserListQuery,
-} from "../hooks";
-import { INCOME_OPTIONS, ROLE_OPTIONS } from "../options";
+import { useUserListQuery } from "../hooks";
 import { UserType } from "../type";
 
 const UserList = () => {

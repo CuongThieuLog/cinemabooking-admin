@@ -1,11 +1,11 @@
 import { getListUser } from "@/libs/api/user";
 import { useTableContext } from "@/libs/components/Table";
 import { useQuery } from "@tanstack/react-query";
-import { UserListType, UserSearchInputType } from "..";
+import { UserListType, UserSearchInputType, UserType } from "..";
 
 export const useUserListQuery = () => {
   const { input, getTableData, sortOptions } = useTableContext<
-    UserListType,
+    UserType,
     UserSearchInputType
   >();
   const { page, per_page, search, willing, has_assets, is_paid, income, role } =

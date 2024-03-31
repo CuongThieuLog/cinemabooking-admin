@@ -1,60 +1,69 @@
-'use client'
+"use client";
 
-import { PaginationType } from '@/libs/types/pagination'
-import { UseQueryResult } from '@tanstack/react-query'
-import { Context, createContext, useCallback, useContext, useMemo, useState } from 'react'
-import { MakePaginationOptional, PaginationProps } from './ReactTable/types'
+import { PaginationType } from "@/libs/types/pagination";
+import { UseQueryResult } from "@tanstack/react-query";
+import {
+  Context,
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
+import { MakePaginationOptional, PaginationProps } from "./ReactTable/types";
 
 type PaginationParams = {
-  page: number
-  per_page: number
-}
+  page: number;
+  per_page: number;
+};
 
 type SortParams = {
-  sort_by: 'asc' | 'desc'
-  column: string
-}
+  sort_by: "asc" | "desc";
+  column: string;
+};
 
-type PaginationDataType<TData> = { data: any } & PaginationType
+type PaginationDataType<TData> = { data: TData[] } & PaginationType;
 
 export type TableContextValue<TData, Input> = {
-  pagination: PaginationParams
-  input: Input
+  pagination: PaginationParams;
+  input: Input;
   getTableData: (result: UseQueryResult<PaginationDataType<TData>>) => {
-    data: any
-    loading: boolean
-    paginationProps: PaginationProps
-    resetPagination: (paginationParams?: PaginationParams) => void
-  }
+    data: TData[];
+    loading: boolean;
+    paginationProps: PaginationProps;
+    resetPagination: (paginationParams?: PaginationParams) => void;
+  };
   handleChangeParams: (
     newParams: MakePaginationOptional<Input>,
     mergeParams?: boolean,
-    resetPaginationMeta?: boolean,
-  ) => void
-  handleChangePagination: (paginationParams: Partial<PaginationParams>) => void
-  setFilterOptions: React.Dispatch<React.SetStateAction<Record<keyof Input, unknown>>>
-  handleSort: (columnName: string) => void
-  sortOptions?: SortParams
-}
+    resetPaginationMeta?: boolean
+  ) => void;
+  handleChangePagination: (paginationParams: Partial<PaginationParams>) => void;
+  setFilterOptions: React.Dispatch<
+    React.SetStateAction<Record<keyof Input, unknown>>
+  >;
+  handleSort: (columnName: string) => void;
+  sortOptions?: SortParams;
+};
 
 export const TableContext = createContext<TableContextValue<unknown, unknown>>(
-  {} as TableContextValue<unknown, unknown>,
-)
+  {} as TableContextValue<unknown, unknown>
+);
 
 export function useTableContext<TData, Input>() {
   const ctx = useContext<TableContextValue<TData, Input>>(
-    TableContext as Context<TableContextValue<TData, Input>>,
-  )
+    TableContext as Context<TableContextValue<TData, Input>>
+  );
   if (!ctx || Object.keys(ctx).length === 0) {
-    throw new Error('useTableContext must be used within a TableProvider')
+    throw new Error("useTableContext must be used within a TableProvider");
   }
 
-  return ctx
+  return ctx;
 }
 
 export type TableProviderProps<Input> = {
-  initialParams?: MakePaginationOptional<Input>
-}
+  initialParams?: MakePaginationOptional<Input>;
+};
 
 export function TableProvider<TData, Input>({
   initialParams,
@@ -63,97 +72,115 @@ export function TableProvider<TData, Input>({
   const [pagination, setPagination] = useState<PaginationParams>({
     page: 1,
     per_page: 10,
-  })
+  });
 
-  const [params, setParams] = useState<Input>(initialParams as Input)
-  const [filterOptions, setFilterOptions] = useState<Record<keyof Input, unknown> | undefined>()
-  const [sortOptions, setSortOptions] = useState<SortParams | undefined>()
-  const handleChangePagination = useCallback((paginationParams: Partial<PaginationParams>) => {
-    setPagination((pre) => ({ ...pre, ...paginationParams }))
-  }, [])
+  const [params, setParams] = useState<Input>(initialParams as Input);
+  const [filterOptions, setFilterOptions] = useState<
+    Record<keyof Input, unknown> | undefined
+  >();
+  const [sortOptions, setSortOptions] = useState<SortParams | undefined>();
+  const handleChangePagination = useCallback(
+    (paginationParams: Partial<PaginationParams>) => {
+      setPagination((pre) => ({ ...pre, ...paginationParams }));
+    },
+    []
+  );
 
   const resetPagination = useCallback(
     (paginationParams?: PaginationParams) => {
       if (paginationParams) {
-        setPagination(paginationParams)
+        setPagination(paginationParams);
       } else {
         setPagination({
           page: 1,
           per_page: pagination.per_page,
-        })
+        });
       }
     },
-    [pagination],
-  )
+    [pagination]
+  );
 
   const handleChangeParams = useCallback(
-    (newParams: MakePaginationOptional<Input>, mergeParams = true, resetPaginationMeta = true) => {
+    (
+      newParams: MakePaginationOptional<Input>,
+      mergeParams = true,
+      resetPaginationMeta = true
+    ) => {
       // remove properties with undefined or empty string value
       const validate = (p: MakePaginationOptional<Input>) =>
         Object.entries(p).reduce((acc, [key, value]) => {
-          if (value !== undefined && (value as unknown) !== '' && value !== null) {
+          if (
+            value !== undefined &&
+            (value as unknown) !== "" &&
+            value !== null
+          ) {
             acc[key as keyof MakePaginationOptional<Input>] =
-              value as MakePaginationOptional<Input>[keyof MakePaginationOptional<Input>]
+              value as MakePaginationOptional<Input>[keyof MakePaginationOptional<Input>];
           }
-          return acc
-        }, {} as MakePaginationOptional<Input>)
+          return acc;
+        }, {} as MakePaginationOptional<Input>);
 
       const _update = (prev: Input) => {
-        return (mergeParams ? validate({ ...prev, ...newParams }) : validate(newParams)) as Input
-      }
+        return (
+          mergeParams
+            ? validate({ ...prev, ...newParams })
+            : validate(newParams)
+        ) as Input;
+      };
 
-      setParams(_update)
+      setParams(_update);
 
       if (resetPaginationMeta) {
         resetPagination({
           page: 1,
           per_page: pagination.per_page,
-        })
+        });
       }
     },
 
-    [pagination.per_page, resetPagination],
-  )
+    [pagination.per_page, resetPagination]
+  );
 
-  const getTableData: TableContextValue<TData, Input>['getTableData'] = useCallback(
-    (result: UseQueryResult<PaginationDataType<TData>>) => {
-      const { data, isLoading, refetch } = result
+  const getTableData: TableContextValue<TData, Input>["getTableData"] =
+    useCallback(
+      (result: UseQueryResult<PaginationDataType<TData>>) => {
+        const { data, isLoading, refetch } = result;
 
-      return {
-        paginationProps: {
-          paginationParams: pagination,
-          pageCount: data?.last_page,
-          total: data?.total,
-          handleChangePagination,
-          manualPagination: true,
-        },
-        data: (data?.data || []) as TData[],
-        loading: isLoading,
-        resetPagination,
-        refetch,
-      }
-    },
-    [pagination, handleChangePagination, resetPagination],
-  )
+        return {
+          paginationProps: {
+            paginationParams: pagination,
+            pageCount: data?.last_page,
+            total: data?.total,
+            handleChangePagination,
+            manualPagination: true,
+          },
+          data: (data?.data || []) as TData[],
+          loading: isLoading,
+          resetPagination,
+          refetch,
+        };
+      },
+      [pagination, handleChangePagination, resetPagination]
+    );
 
   const handleSort = useCallback((columnName: string) => {
     setSortOptions((prev) => {
       if (prev?.column === columnName) {
         return {
           column: columnName,
-          sort_by: prev.sort_by === 'desc' ? 'asc' : 'desc',
-        }
+          sort_by: prev.sort_by === "desc" ? "asc" : "desc",
+        };
       }
       return {
         column: columnName,
-        sort_by: 'desc',
-      }
-    })
-  }, [])
+        sort_by: "desc",
+      };
+    });
+  }, []);
 
   const input = useMemo(() => {
-    const _params = params ?? {}
-    const isEmptyParams = Object.keys(_params).length === 0
+    const _params = params ?? {};
+    const isEmptyParams = Object.keys(_params).length === 0;
     return {
       ...pagination,
       ...params,
@@ -162,14 +189,14 @@ export function TableProvider<TData, Input>({
           (acc, key) => {
             acc[key as keyof Input] = {
               ...(filterOptions?.[key as keyof Input] ?? {}),
-            }
-            return acc
+            };
+            return acc;
           },
-          {} as Record<keyof Input, unknown>,
+          {} as Record<keyof Input, unknown>
         ),
       }),
-    } as Input
-  }, [pagination, params, filterOptions])
+    } as Input;
+  }, [pagination, params, filterOptions]);
 
   const ctxValue = useMemo(
     () => ({
@@ -191,8 +218,10 @@ export function TableProvider<TData, Input>({
       handleChangePagination,
       handleSort,
       sortOptions,
-    ],
-  ) as unknown as TableContextValue<unknown, unknown>
+    ]
+  ) as unknown as TableContextValue<unknown, unknown>;
 
-  return <TableContext.Provider value={ctxValue}>{children}</TableContext.Provider>
+  return (
+    <TableContext.Provider value={ctxValue}>{children}</TableContext.Provider>
+  );
 }

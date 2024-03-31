@@ -79,7 +79,7 @@ const Footer = ({ isPending, isDirty }: FooterFormProps) => {
             sx={{ width: 120, fontSize: 16 }}
             disabled={isPending}
           >
-            保存
+            Xác nhận
           </ButtonSaveForm>
         </Stack>
       </Paper>
