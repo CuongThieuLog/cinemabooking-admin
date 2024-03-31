@@ -1,24 +1,24 @@
-import { TypeOf, z } from 'zod'
+import { TypeOf, z } from "zod";
 
 export const LoginInputSchema = z.object({
   email: z.string(),
   password: z.string(),
-})
+});
 
 const AdminInfoSchema = z.object({
   id: z.string(),
-  name: z.string(),
-  email: z.string(),
-  is_super: z.number(),
-})
+  first_name: z.string(),
+  last_name: z.string(),
+  role: z.string(),
+});
 
 export const LoginOutputSchema = z.object({
   token_type: z.string(),
   expires_in: z.number(),
   access_token: z.string(),
   refresh_token: z.string(),
-  admin_info: AdminInfoSchema,
-})
+  user: AdminInfoSchema,
+});
 
 export const AdminResponseSchema = z.object({
   data: z.object({
@@ -30,9 +30,9 @@ export const AdminResponseSchema = z.object({
     created_at: z.string(),
     updated_at: z.string(),
   }),
-})
+});
 
-export type LoginInputType = TypeOf<typeof LoginInputSchema>
-export type LoginOutputType = TypeOf<typeof LoginOutputSchema>
-export type AdminInfoType = TypeOf<typeof AdminInfoSchema>
-export type AdminResponseType = TypeOf<typeof AdminResponseSchema>
+export type LoginInputType = TypeOf<typeof LoginInputSchema>;
+export type LoginOutputType = TypeOf<typeof LoginOutputSchema>;
+export type AdminInfoType = TypeOf<typeof AdminInfoSchema>;
+export type AdminResponseType = TypeOf<typeof AdminResponseSchema>;

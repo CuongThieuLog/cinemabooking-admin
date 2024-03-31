@@ -25,10 +25,9 @@ const Login = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      const { admin_info, ...token } = data.data;
+      const { user, ...token } = data.data;
       setAccessToken(token.access_token);
-      setAdmin(admin_info);
-      router.push("/");
+      setAdmin(user);
     },
     onError: (error: ErrorTypeResponse) => {
       const { data: responseData } = error.response || {};

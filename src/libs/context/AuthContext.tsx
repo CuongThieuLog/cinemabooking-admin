@@ -1,7 +1,10 @@
-'use client'
-import { AdminInfoType } from '@/features/auth'
-import { getAccessTokenFromStorage, setAccessTokenToStorage } from '@/utils/localStorage'
-import { useRouter } from 'next/navigation'
+"use client";
+import { AdminInfoType } from "@/features/auth";
+import {
+  getAccessTokenFromStorage,
+  setAccessTokenToStorage,
+} from "@/utils/localStorage";
+import { useRouter } from "next/navigation";
 import React, {
   Dispatch,
   SetStateAction,
@@ -10,16 +13,16 @@ import React, {
   useEffect,
   useLayoutEffect,
   useState,
-} from 'react'
-import { logout } from '../api/auth'
-import { getMe } from '../api/self-info'
+} from "react";
+import { logout } from "../api/auth";
+import { getMe } from "../api/self-info";
 
 interface AuthContextType {
-  setAccessToken: Dispatch<SetStateAction<string>>
-  setAdmin: Dispatch<SetStateAction<AdminInfoType | null>>
-  admin: AdminInfoType | null
-  loading: boolean
-  handleLogout: () => void
+  setAccessToken: Dispatch<SetStateAction<string>>;
+  setAdmin: Dispatch<SetStateAction<AdminInfoType | null>>;
+  admin: AdminInfoType | null;
+  loading: boolean;
+  handleLogout: () => void;
 }
 
 const defaultValues = {
@@ -28,63 +31,63 @@ const defaultValues = {
   setAdmin: () => {},
   loading: false,
   handleLogout: () => {},
-}
+};
 
 type PropChildren = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
-const AuthContext = createContext<AuthContextType>(defaultValues)
+const AuthContext = createContext<AuthContextType>(defaultValues);
 
 const AuthProvider: React.FC<PropChildren> = ({ children }) => {
-  const [admin, setAdmin] = useState<AdminInfoType | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [accessToken, setAccessToken] = useState('')
-  const router = useRouter()
+  const [admin, setAdmin] = useState<AdminInfoType | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [accessToken, setAccessToken] = useState("");
+  const router = useRouter();
 
   const handleLogout = async () => {
     try {
-      await logout()
-      setAccessTokenToStorage('')
-      setAdmin(null)
-      router.push('/login')
+      await logout();
+      setAccessTokenToStorage("");
+      setAdmin(null);
+      router.push("/login");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const fetchAdminInfo = async () => {
     try {
-      setLoading(true)
-      const admin = await getMe()
-      setAdmin(admin)
+      setLoading(true);
+      const admin = await getMe();
+      setAdmin(admin);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    if (!accessToken) return
-  }, [accessToken])
+    if (!accessToken) return;
+  }, [accessToken]);
 
   const handleSaveAccessToken = useCallback(async () => {
-    await setAccessTokenToStorage(accessToken)
-  }, [accessToken])
+    await setAccessTokenToStorage(accessToken);
+  }, [accessToken]);
 
   useEffect(() => {
-    if (!accessToken) return
-    handleSaveAccessToken()
-  }, [accessToken, handleSaveAccessToken])
+    if (!accessToken) return;
+    handleSaveAccessToken();
+  }, [accessToken, handleSaveAccessToken]);
 
   useLayoutEffect(() => {
-    fetchAdminInfo()
-    const getAccessToken = getAccessTokenFromStorage()
+    fetchAdminInfo();
+    const getAccessToken = getAccessTokenFromStorage();
     if (getAccessToken) {
-      setAccessToken(getAccessToken)
+      setAccessToken(getAccessToken);
     }
-  }, [router])
+  }, [router]);
 
   const value = {
     admin,
@@ -92,13 +95,13 @@ const AuthProvider: React.FC<PropChildren> = ({ children }) => {
     setAdmin,
     handleLogout,
     loading,
-  }
+  };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
 
-export default AuthProvider
+export default AuthProvider;
 
 export const useAuth = () => {
-  return React.useContext(AuthContext)
-}
+  return React.useContext(AuthContext);
+};
